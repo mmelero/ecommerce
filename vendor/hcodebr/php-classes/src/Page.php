@@ -31,7 +31,7 @@
 
             $this->setData($this->options["data"]);
 
-            $this->tpl->draw("header");
+            if($this->options["header"] === true) $this->tpl->draw("header");
 
 
         }
@@ -43,7 +43,7 @@
             }
         }
 
-        //Conteudo da pagina "Login", Cadasreo, etc.
+        //Conteudo da pagina "Login", Cadastro, etc.
         public function setTpl($name, $data= array(), $returnHTML = false){
             $this->setData($data);
             return $this->tpl->draw($name, $returnHTML);
@@ -51,7 +51,7 @@
 
         public function __destruct()
         {
-            $this->tpl->draw("footer");
+            if($this->options["header"] === true) $this->tpl->draw("footer");
         }
     }
 ?>
