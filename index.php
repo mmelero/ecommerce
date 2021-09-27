@@ -300,7 +300,7 @@ $app->get("/admin/users/:iduser", function($iduser) {
             'category'=>$category->getValues()
         ]);
 
-        
+
     });
 
     $app->post("/admin/categories/:idcategory", function ($idcategory){
@@ -318,6 +318,20 @@ $app->get("/admin/users/:iduser", function($iduser) {
         header("Location: /admin/categories");
 
         exit();
+    });
+
+    $app->get("/categories/:idcategory", function ($idcategory){
+
+        $category = new Category();
+
+        $category->get((int)$idcategory);
+
+        $page = new Page();
+
+        $page->setTpl("category", [
+            'category'=>$category->getValues(),
+            'produtcs' => []
+        ]);
     });
 
     $app->run();
