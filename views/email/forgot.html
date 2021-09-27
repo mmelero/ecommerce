@@ -384,7 +384,7 @@
           <div class="content">
             <span class="brand">
               <a href="#">
-                Hcode Store
+                L&M SysInfo Store
               </a>
             </span>
           </div>

@@ -15,6 +15,9 @@ class User extends Model {
     const ERROR_REGISTER = "UserErrorRegister";
     const SUCCESS = "UserSucesss";
 
+    protected $fields = ["iduser", "idperson", "deslogin", "despassword", "inadmim", "desemail", "phone".
+                        "dtregister", "desperson" ];
+
     public static function getFromSession()
     {
 
@@ -153,16 +156,18 @@ class User extends Model {
 
         $sql = new Sql();
 
-        $results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) WHERE a.iduser = :iduser", array(
-            ":iduser"=>$iduser
-        ));
-
-        $data = $results[0];
-
-        $data['desperson'] = utf8_encode($data['desperson']);
+        $results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) WHERE a.iduser = :iduser",
+            array(
+                ":iduser"=>$iduser
+            ));
 
 
-        $this->setData($data);
+            $data = $results[0];
+
+            $data['desperson'] = utf8_encode($data['desperson']);
+
+            $this->setData($data);
+
 
     }
 
@@ -258,7 +263,7 @@ class User extends Model {
 
                 $mailer->send();
 
-                return $link;
+                return $data;
 
             }
 
