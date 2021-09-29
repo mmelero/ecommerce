@@ -126,6 +126,34 @@ class Category extends Model {
         ]);
 
     }
+
+    public function getProductsPage($page = 1, $itemsPerPage = 8){
+
+        $start = ($page - 1) * $itemsPerPage;
+        $sql = new Sql();
+
+
+        $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS *  
+                                 FROM tb_products a 
+                                 WHERE EXISTS( SELECT 1 
+                                                 FROM tb_productscategories b
+                                                 WHERE b.idproduct = a.idproduct
+                                                 AND   b.idcategory = :idcategory)
+                                LIMIT $start, $itemsPerPage;",[
+                ':idcategory'=>$this->getidcategory()
+                ]);
+
+        $resultsTotal = $sql->select("SELECT FOUND_ROWS() AS nrtotal;");
+
+
+        //var_dump(Product::checkList($results),ceil((int)$resultsTotal[0]["nrtotal"]/$itemsPerPage));
+        //exit();
+        return [
+            'data'=>Product::checkList($results),
+            'total'=>(int)$resultsTotal[0]["nrtotal"],
+            'pages'=>ceil($resultsTotal[0]["nrtotal"]/$itemsPerPage)
+        ];
+    }
 }
 
 ?>
