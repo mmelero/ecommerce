@@ -92,18 +92,31 @@
         exit();
     });
 
-    $app->get("/categories/:idcategory", function ($idcategory){
+
+    $app->get("/admin/categories/:idcategory/products", function ($idcategory){
+
+        User::verifyLogin();
 
         $category = new Category();
 
         $category->get((int)$idcategory);
 
-        $page = new Page();
+       // var_dump( $category->getProducts(),
+       //     $category->getProducts(false));
+       // exit();
 
-        $page->setTpl("category", [
+        $page = new PageAdmin();
+
+        $page->setTpl("categories-products", [
             'category'=>$category->getValues(),
-            'produtcs' => []
+            'productsRelated'=>$category->getProducts(),
+            'productsNotRelated'=>$category->getProducts(false)
+
         ]);
     });
+
+
+
+
 
 ?>

@@ -71,6 +71,36 @@ class Category extends Model {
                             implode("",$html));
     }
 
+    public function getProducts($related = true){
+        $sql = new Sql();
+
+        //var_dump((int)$this->getidcategory());
+        //exit();
+
+        if ($related === true) {
+
+           return $sql->select(
+               "SELECT * FROM tb_products a 
+                         WHERE EXISTS( SELECT 1 
+                                        FROM tb_productscategories b
+                                        WHERE b.idproduct = a.idproduct
+                                        AND   b.idcategory = :idcategory);
+                        ", [
+                            ':idcategory'=>$this->getidcategory()
+                        ]);
+
+        } else {
+            return $sql->select(
+                "SELECT * FROM tb_products a 
+                         WHERE NOT EXISTS( SELECT 1 
+                                            FROM tb_productscategories b
+                                            WHERE b.idproduct = a.idproduct
+                                            AND   b.idcategory = :idcategory);
+			", [
+                ':idcategory'=>$this->getidcategory()
+            ]);
+        }
+    }
 }
 
 ?>
