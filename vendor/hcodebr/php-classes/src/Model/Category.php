@@ -69,7 +69,7 @@ class Category extends Model {
         }
 
         file_put_contents($_SERVER['DOCUMENT_ROOT'] .DIRECTORY_SEPARATOR. "views" . DIRECTORY_SEPARATOR. "categories-menu.html",
-                            implode("",$html));
+                            implode('',$html));
     }
 
     public function getProducts($related = true){
@@ -127,9 +127,10 @@ class Category extends Model {
 
     }
 
-    public function getProductsPage($page = 1, $itemsPerPage = 8){
+    public function getProductsPage($page, $itemsPerPage = 2){
 
         $start = ($page - 1) * $itemsPerPage;
+
         $sql = new Sql();
 
 
@@ -145,15 +146,14 @@ class Category extends Model {
 
         $resultsTotal = $sql->select("SELECT FOUND_ROWS() AS nrtotal;");
 
-
-        //var_dump(Product::checkList($results),ceil((int)$resultsTotal[0]["nrtotal"]/$itemsPerPage));
-        //exit();
         return [
             'data'=>Product::checkList($results),
             'total'=>(int)$resultsTotal[0]["nrtotal"],
             'pages'=>ceil($resultsTotal[0]["nrtotal"]/$itemsPerPage)
         ];
     }
+
+
 }
 
 ?>

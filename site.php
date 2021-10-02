@@ -1,10 +1,13 @@
 <?php
 
     use \Hcode\Page;
-    use\Hcode\Model\Product;
-    use\Hcode\Model\Category;
+    use \Hcode\Model\Product;
+    use \Hcode\Model\Category;
 
-    $app->get('/', function() {
+
+    $app = new Slim\Slim();
+
+    $app->get('/', function (){
 
         $products = Product::listAll();
 
@@ -15,11 +18,19 @@
 
     });
 
-
     $app->get("/categories/:idcategory", function ($idcategory){
 
-        $page = (isset($_GET['page']))?(int)$_GET['page'] : 1;
 
+        //$page = (isset($_GET['page']))?(int)$_GET['page'] : 1;
+
+        $urlCode = $_SERVER['REQUEST_URI'];
+
+        $codeUrl = explode('page=', $urlCode);
+
+        $page = (isset($codeUrl[1]))? (int) $codeUrl[1] : 1;
+
+        //var_dump($page);
+        //exit();
         $category = new Category();
 
         $category->get((int)$idcategory);
@@ -30,21 +41,33 @@
 
         for ($i=1; $i <= $pagination['pages']; $i++){
             array_push($pages, [
-                'link'=>'/categories/'. $category->getidcategory(). '?page' .$i,
+                'link'=>'/categories/'. $category->getidcategory(). '?page=' .$i,
                 'page'=>$i
             ]);
         }
 
-        var_dump(Product::checkList($category->getProducts()), $pagination['data'], $pages);
-        exit();
-
-        $page = new Page();
+       $page = new Page();
 
         $page->setTpl("category", [
             'category'=>$category->getValues(),
-            'produtcs'=>$pagination['data'],
+            'produtos'=>$pagination['data'],
             'pages'=>$pages
         ]);
+
     });
+
+    $app->get("/products/:desurl", function ($desurl){
+
+        $product = new Product();
+
+        $product->getFromURL($desurl);
+
+        $page = new Page();
+
+        $page->setTpl("product-detail", [
+            'product'=>$product->getValues(),
+            'categories'=>$product->getCategories()
+        ]);
+    })
 
 ?>
