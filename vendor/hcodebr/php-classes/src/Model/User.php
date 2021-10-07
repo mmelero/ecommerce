@@ -69,9 +69,16 @@ class User extends Model {
     public static function login($login, $password)
     {
 
+        $str = $login;
+        $field = 'a.deslogin ';
+        $search = '@';
+        if (preg_match("/{$search}/i", $str)) {
+            $field = 'b.desemail ';
+        }
+
         $sql = new Sql();
 
-        $results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b ON a.idperson = b.idperson WHERE a.deslogin = :LOGIN", array(
+        $results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b ON a.idperson = b.idperson WHERE " ."$field "." =  :LOGIN", array(
             ":LOGIN"=>$login
         ));
 
@@ -180,7 +187,7 @@ class User extends Model {
             ":iduser"=>$this->getiduser(),
             ":desperson"=>utf8_decode($this->getdesperson()),
             ":deslogin"=>$this->getdeslogin(),
-            ":despassword"=>User::getPasswordHash($this->getdespassword()),
+            ":despassword"=>$this->getdespassword(),
             ":desemail"=>$this->getdesemail(),
             ":nrphone"=>$this->getnrphone(),
             ":inadmin"=>$this->getinadmin()
@@ -252,7 +259,7 @@ class User extends Model {
 
                 } else {
 
-                    $link = "http://www.lemsysinfocommerce.com.br/admin/forgot/reset?code=$code";
+                    $link = "http://www.lemsysinfocommerce.com.br/forgot/reset?code=$code";
 
                 }
 
@@ -312,6 +319,7 @@ class User extends Model {
     {
 
         $sql = new Sql();
+
 
         $sql->query("UPDATE tb_userspasswordsrecoveries SET dtrecovery = NOW() WHERE idrecovery = :idrecovery", array(
             ":idrecovery"=>$idrecovery

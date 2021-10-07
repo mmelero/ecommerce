@@ -36,15 +36,61 @@
 
         $page = new PageAdmin();
 
-        $page->setTpl("users-create");
+        $page->setTpl("users-create",[
+            'error'=>User::getError(),
+            'errorRegister'=>User::getErrorRegister(),
+            'registerValues'=>(isset($_SESSION['registerValues'])) ? $_SESSION['registerValues'] :
+                ['desperson'=>'', 'deslogin'=>'', 'nrphone'=>'', 'desemail'=>'','despassword'=>'']
+
+        ] );
 
     });
 
     $app->post('/admin/users/create', function ()
     {
+        $_SESSION['registerValues'] = $_POST;
+
+        if(!isset($_POST['desperson']) || $_POST['desperson'] == ''){
+            User::setErrorRegister("Preencha  o seu nome.");
+            header("Location: /admin/users/create");
+            exit();
+        }
+        if(!isset($_POST['deslogin']) || $_POST['deslogin'] == ''){
+            User::setErrorRegister("Preencha  o seu login.");
+            header("Location: /admin/users/create");
+            exit();
+        }
+        if(!isset($_POST['nrphone']) || $_POST['nrphone'] == ''){
+            User::setErrorRegister("Preencha  o numero do telefone.");
+            header("Location: /admin/users/create");
+            exit();
+        }
+        if(!isset($_POST['desemail']) || $_POST['desemail'] == ''){
+            User::setErrorRegister("Preencha  o seu Email.");
+            header("Location: /admin/users/create");
+            exit();
+        }
+        if(!isset($_POST['despassword']) || $_POST['despassword'] == ''){
+            User::setErrorRegister("Preencha  o seu password.");
+            header("Location: /admin/users/create");
+            exit();
+        }
+
         User::verifyLogin();
 
         $user = new User();
+
+        $user->setData([
+            'inadmin'=>0,
+            'desperson'=>$_POST['desperson'],
+            'deslogin'=>$_POST['deslogin'],
+            'nrphone'=>(int)$_POST['nrphone'],
+            'desemail'=>$_POST['desemail'],
+            'despassword'=>$_POST['despassword']
+
+
+        ]);
+
 
         $_POST["inadmin"] = (isset($_POST["inadmin"]))?1:0;
 

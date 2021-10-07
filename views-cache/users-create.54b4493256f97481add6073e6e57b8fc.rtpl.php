@@ -1,4 +1,4 @@
-<!-- Content Wrapper. Contains page content -->
+<?php if(!class_exists('Rain\Tpl')){exit;}?><!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
@@ -17,11 +17,11 @@
 
     <div class="row">
       <div class="col-md-12">
-        {if="$errorRegister != ''"}
+        <?php if( $errorRegister != '' ){ ?>
         <div class="alert alert-danger">
-          {$errorRegister}
+          <?php echo htmlspecialchars( $errorRegister, ENT_COMPAT, 'UTF-8', FALSE ); ?>
         </div>
-        {/if}
+        <?php } ?>
         <div class="box box-success">
           <div class="box-header with-border">
             <h3 class="box-title">Novo Usuário</h3>
@@ -32,23 +32,23 @@
             <div class="box-body">
               <div class="form-group">
                 <label for="desperson">Nome</label>
-                <input type="text" class="form-control" id="desperson" name="desperson" class="input-text" value="{$registerValues.desperson}" placeholder="Digite o nome">
+                <input type="text" class="form-control" id="desperson" name="desperson" class="input-text" value="<?php echo htmlspecialchars( $registerValues["desperson"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" placeholder="Digite o nome">
               </div>
               <div class="form-group">
                 <label for="deslogin">Login</label>
-                <input type="text" class="form-control" id="deslogin" name="deslogin" class="input-text" value="{$registerValues.deslogin}" placeholder="Digite o login">
+                <input type="text" class="form-control" id="deslogin" name="deslogin" class="input-text" value="<?php echo htmlspecialchars( $registerValues["deslogin"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" placeholder="Digite o login">
               </div>
               <div class="form-group">
                 <label for="nrphone">Telefone</label>
-                <input type="tel" class="form-control" id="nrphone" name="nrphone" class="input-text" value="{$registerValues.nrphone}" placeholder="Digite o telefone">
+                <input type="tel" class="form-control" id="nrphone" name="nrphone" class="input-text" value="<?php echo htmlspecialchars( $registerValues["nrphone"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" placeholder="Digite o telefone">
               </div>
               <div class="form-group">
                 <label for="desemail">E-mail</label>
-                <input type="email" class="form-control" id="desemail" name="desemail" class="input-text" value="{$registerValues.desemail}" placeholder="Digite o e-mail">
+                <input type="email" class="form-control" id="desemail" name="desemail" class="input-text" value="<?php echo htmlspecialchars( $registerValues["desemail"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" placeholder="Digite o e-mail">
               </div>
               <div class="form-group">
                 <label for="despassword">Senha</label>
-                <input type="password" class="form-control" id="despassword" name="despassword" class="input-text" value="{$registerValues.despassword}" placeholder="Digite a senha">
+                <input type="password" class="form-control" id="despassword" name="despassword" class="input-text" value="<?php echo htmlspecialchars( $registerValues["despassword"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" placeholder="Digite a senha">
               </div>
               <div class="checkbox">
                 <label>
