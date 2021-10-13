@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Smalot\\PdfParser\\' => array($vendorDir . '/smalot/pdfparser/src'),
     'Slim' => array($vendorDir . '/slim/slim'),
     'Rain' => array($vendorDir . '/rain/raintpl/library'),
 );
