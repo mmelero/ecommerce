@@ -26,7 +26,6 @@ class Address extends Model
 
         curl_close($ch);
 
-
         return $data;
 
     }

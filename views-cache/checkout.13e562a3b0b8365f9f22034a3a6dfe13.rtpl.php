@@ -96,7 +96,8 @@
 													<tr class="shipping">
 														<th>Frete</th>
 														<td>
-															$5.00
+															R$ <?php echo formatPrice($cart["vlfreight"]); ?>
+
 															<input type="hidden" class="shipping_method" value="free_shipping" id="shipping_method_0" data-index="0" name="shipping_method[0]">
 														</td>
 													</tr>

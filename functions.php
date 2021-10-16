@@ -10,7 +10,7 @@ use  \Hcode\Model\Cart;
         return number_format($vlprice, 2, ",",".");
     }
 
-    function checkLogin($inadmin = ture){
+    function checkLogin($inadmin = true){
 
         return User::checkLogin($inadmin);
 
